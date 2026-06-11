@@ -6,73 +6,125 @@ O projeto combina automação, monitoramento de estoque e inteligência artifici
 
 ---
 
-## 📖 Visão Geral
+# 📖 Visão Geral
 
-A solução Zênite tem como objetivo centralizar informações operacionais e transformá-las em indicadores e recomendações acionáveis através da integração entre:
+A solução Zênite foi concebida para centralizar informações operacionais e transformá-las em indicadores e recomendações acionáveis através da integração entre:
 
 - API REST
-- Banco de Dados PostgreSQL
-- Automações com n8n
+- PostgreSQL
+- Redis
+- n8n
 - Google Sheets
 - Google Looker Studio
 - OpenAI
 
----
-
-## 🚀 Arquitetura
-
-```text
-                 ┌─────────────┐
-                 │   OpenAI    │
-                 └──────┬──────┘
-                        │
-                        ▼
-
-┌──────────┐     ┌──────────┐     ┌──────────────┐
-│ NestJS   │────▶│ PostgreSQL│────▶│     n8n      │
-│   API    │     │           │     │ Automations  │
-└────┬─────┘     └──────────┘     └──────┬───────┘
-     │                                   │
-     │                                   ▼
-     │                         ┌─────────────────┐
-     │                         │ Google Sheets   │
-     │                         └────────┬────────┘
-     │                                  │
-     ▼                                  ▼
-
-┌──────────────────────────────────────────────┐
-│           Google Looker Studio               │
-│      Dashboards & Operational KPIs           │
-└──────────────────────────────────────────────┘
-```
+O objetivo é fornecer visibilidade operacional em tempo real e automatizar a identificação de problemas críticos relacionados à gestão de estoque e distribuição.
 
 ---
 
-## 🎯 Objetivo
+# 🚀 Arquitetura
+
+A arquitetura da solução foi projetada para separar claramente:
+
+- Persistência de dados;
+- Exposição de informações;
+- Automação operacional;
+- Inteligência analítica;
+- Visualização executiva.
+
+![Arquitetura da Solução](src/shared/storage/docs/c4-diagram.png)
+
+## Componentes
+
+| Componente | Responsabilidade |
+|------------|------------------|
+| API Zênite | Exposição e manipulação dos dados operacionais |
+| PostgreSQL | Persistência dos dados |
+| Redis | Cache de consultas frequentes |
+| n8n | Orquestração das automações |
+| Google Sheets | Consolidação dos dados consumidos pelo dashboard |
+| Looker Studio | Visualização dos indicadores |
+| OpenAI | Geração de recomendações executivas |
+
+---
+
+# 🤖 Fluxo de Automação (n8n)
+
+O n8n atua como o principal orquestrador da solução.
+
+Periodicamente ele consulta a API, processa indicadores e gera recomendações utilizando IA.
+
+![Fluxo n8n](src/shared/storage/docs/n8n-workflow.png)
+
+## Responsabilidades do Workflow
+
+- Consultar estoque atual;
+- Identificar produtos abaixo do estoque mínimo;
+- Identificar produtos vencidos;
+- Consultar pedidos;
+- Identificar entregas atrasadas;
+- Consolidar indicadores operacionais;
+- Acionar a OpenAI;
+- Persistir recomendações executivas;
+- Atualizar os dados consumidos pelo dashboard.
+
+---
+
+# 🗄️ Modelo de Dados
+
+A modelagem foi construída para suportar o monitoramento operacional sem a complexidade de um ERP completo.
+
+![Modelo de Dados](src/shared/storage/docs/database.png)
+
+## Entidades Principais
+
+| Entidade | Responsabilidade |
+|-----------|------------------|
+| Product | Produtos agropecuários |
+| Warehouse | Armazéns físicos |
+| Inventory | Estoque atual por armazém |
+| StockMovement | Histórico de movimentações |
+| Delivery | Controle logístico |
+| AIReport | Relatórios gerados pela IA |
+
+---
+
+# 🎯 Objetivo
 
 Resolver problemas comuns em distribuidoras agropecuárias:
 
-- Estoque abaixo do mínimo
-- Produtos vencidos
-- Entregas atrasadas
-- Custos elevados de armazenagem
-- Falta de visibilidade operacional
+- Produtos abaixo do estoque mínimo;
+- Produtos vencidos;
+- Entregas atrasadas;
+- Custos elevados de armazenagem;
+- Falta de visibilidade operacional;
+- Dependência de acompanhamento manual.
 
 ---
 
-## 🧠 Uso de Inteligência Artificial
+# 🧠 Uso de Inteligência Artificial
 
-A OpenAI atua como uma camada analítica responsável por:
+A OpenAI atua como uma camada de apoio à decisão.
 
-- Analisar indicadores operacionais;
-- Identificar riscos de ruptura de estoque;
-- Identificar produtos vencidos;
-- Avaliar atrasos logísticos;
-- Gerar recomendações executivas.
+Os dados consolidados pelo n8n são enviados para análise e transformados em recomendações executivas.
 
-Exemplo:
+## Entradas
 
-> Foram identificados 12 produtos abaixo do estoque mínimo. Recomenda-se reposição imediata para evitar ruptura operacional.
+- Estoque crítico;
+- Produtos vencidos;
+- Entregas atrasadas;
+- Indicadores operacionais.
+
+## Saídas
+
+- Identificação de riscos;
+- Recomendações de reposição;
+- Alertas de vencimento;
+- Sugestões operacionais.
+
+### Exemplo
+
+> Foram identificados 12 produtos abaixo do estoque mínimo, 5 produtos vencidos e 11 entregas atrasadas. Recomenda-se reposição imediata dos itens críticos, revisão do processo de controle de validade e acompanhamento dos fornecedores responsáveis pelos atrasos logísticos.
 
 ---
 
@@ -88,6 +140,10 @@ Exemplo:
 
 - PostgreSQL
 - Prisma ORM
+
+## Cache
+
+- Redis
 
 ## Automação
 
@@ -113,192 +169,40 @@ Exemplo:
 ```text
 src/
 
-├── common/
-│
-├── config/
-│
-├── database/
-│   └── prisma/
-│
-├── modules/
-│   ├── products/
-│   ├── warehouses/
-│   ├── inventory/
-│   ├── stock-movements/
-│   ├── deliveries/
-│   └── reports/
-│
-└── main.ts
+app/
+
+shared/
+
+modules/
+
+├── products
+├── warehouses
+├── inventory
+├── stock-movements
+├── deliveries
+└── reports
 ```
 
 ---
 
-# 🗄️ Modelo de Dados
+# 📊 Dashboard Executivo
 
-A aplicação possui seis entidades principais:
+O dashboard foi desenvolvido para fornecer uma visão consolidada da operação.
 
-## Product
+## Indicadores Principais
 
-Representa um produto agropecuário.
+- Estoque abaixo do mínimo;
+- Produtos vencidos;
+- Entregas atrasadas;
+- Custo total de armazenagem.
 
-```text
-id
-name
-category
-minimumStock
-expirationDate
-```
+## Visualizações
 
----
+- Concentração de estoque por categoria;
+- Distribuição de pedidos por status;
+- Recomendações executivas geradas por IA.
 
-## Warehouse
-
-Representa um armazém.
-
-```text
-id
-code
-name
-city
-state
-```
-
----
-
-## Inventory
-
-Representa o estoque atual.
-
-```text
-id
-productId
-warehouseId
-quantity
-monthlyStorageCost
-```
-
----
-
-## StockMovement
-
-Representa uma movimentação de estoque.
-
-```text
-id
-productId
-warehouseId
-movementType
-quantity
-reason
-createdAt
-```
-
----
-
-## Delivery
-
-Representa uma entrega.
-
-```text
-id
-productId
-quantity
-expectedDate
-deliveredDate
-status
-```
-
----
-
-## AIReport
-
-Representa relatórios gerados pela IA.
-
-```text
-id
-summary
-criticalProducts
-expiredProducts
-delayedDeliveries
-generatedAt
-```
-
----
-
-# 📊 Indicadores do Dashboard
-
-O dashboard monitora:
-
-## Estoque Crítico
-
-Produtos abaixo do estoque mínimo.
-
----
-
-## Produtos Vencidos
-
-Produtos que ultrapassaram a data de validade.
-
----
-
-## Entregas Atrasadas
-
-Pedidos com atraso logístico.
-
----
-
-## Custo Total de Armazenagem
-
-Valor financeiro associado ao estoque armazenado.
-
----
-
-## Recomendações Executivas
-
-Insights gerados automaticamente pela IA.
-
----
-
-# 🔄 Fluxo Principal
-
-```text
-Movimentação de Estoque
-          │
-          ▼
-      API NestJS
-          │
-          ▼
-      PostgreSQL
-          │
-          ▼
-         n8n
-          │
-          ▼
-      OpenAI
-          │
-          ▼
-   Google Sheets
-          │
-          ▼
-  Looker Studio
-```
-
----
-
-# 🤖 Fluxo do n8n
-
-O n8n é responsável por:
-
-1. Consultar periodicamente a API;
-2. Buscar dados de estoque;
-3. Buscar dados de pedidos;
-4. Identificar estoque crítico;
-5. Identificar produtos vencidos;
-6. Identificar entregas atrasadas;
-7. Consolidar indicadores;
-8. Acionar a OpenAI;
-9. Gerar relatórios executivos;
-10. Atualizar os dados consumidos pelo dashboard.
+Os dados são atualizados automaticamente através da integração entre API, n8n, Google Sheets e Looker Studio.
 
 ---
 
@@ -341,7 +245,7 @@ GET /stock-movements
 POST /stock-movements
 ```
 
-Exemplo:
+### Exemplo
 
 ```json
 {
@@ -377,6 +281,30 @@ GET /reports/latest
 
 ---
 
+# 🔄 Fluxo Principal
+
+```text
+Movimentação de Estoque
+        │
+        ▼
+      API
+        │
+        ▼
+ PostgreSQL
+        │
+        ▼
+       n8n
+        │
+        ├── Atualiza Indicadores
+        ├── Aciona OpenAI
+        └── Atualiza Google Sheets
+                │
+                ▼
+         Looker Studio
+```
+
+---
+
 # ⚙️ Instalação
 
 ## Clonar o projeto
@@ -387,15 +315,11 @@ git clone https://github.com/seu-usuario/zenite-api.git
 cd zenite-api
 ```
 
----
-
 ## Instalar dependências
 
 ```bash
 npm install
 ```
-
----
 
 ## Configurar ambiente
 
@@ -406,23 +330,17 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/zenite"
 PORT=3000
 ```
 
----
-
 ## Executar migrations
 
 ```bash
 npx prisma migrate dev
 ```
 
----
-
 ## Gerar Prisma Client
 
 ```bash
 npx prisma generate
 ```
-
----
 
 ## Executar projeto
 
@@ -444,19 +362,28 @@ http://localhost:3000/docs
 
 # 🏆 Objetivo do MVP
 
-Demonstrar o fluxo completo:
+Demonstrar o fluxo completo de negócio:
 
 - Registro de movimentações;
 - Atualização de estoque;
-- Automações via n8n;
-- Atualização de indicadores;
-- Geração de recomendações via IA;
-- Visualização em dashboard.
+- Consulta automatizada dos dados;
+- Identificação de indicadores críticos;
+- Geração de recomendações por IA;
+- Atualização automática do dashboard.
+
+## Cenário Demonstrado
+
+1. Registro de movimentação de estoque;
+2. Atualização automática do estoque;
+3. Detecção de indicadores críticos;
+4. Geração de recomendações pela OpenAI;
+5. Atualização do Google Sheets;
+6. Atualização do Dashboard no Looker Studio.
 
 ---
 
 # 👥 Equipe
 
-Projeto desenvolvido durante o Hackathon ATRIA.
+Projeto desenvolvido durante o **Hackathon ATRIA**.
 
-**Zênite — Gestão Inteligente de Estoque e Distribuição**
+**Zênite — Gestão Inteligente de Estoque, Validade e Distribuição**
