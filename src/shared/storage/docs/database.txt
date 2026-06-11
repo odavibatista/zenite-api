@@ -1,0 +1,90 @@
+DBML
+
+Table products {
+  id uuid [pk]
+
+  name varchar(100) [not null]
+  category varchar(50) [not null]
+
+  minimum_stock integer [not null]
+  expiration_date date [not null]
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table warehouses {
+  id uuid [pk]
+
+  code varchar(20) [unique, not null]
+  name varchar(100)
+
+  city varchar(100)
+  state varchar(2)
+
+  created_at timestamp
+}
+
+Table inventories {
+  id uuid [pk]
+
+  product_id uuid [not null]
+  warehouse_id uuid [not null]
+
+  quantity integer [not null]
+
+  monthly_storage_cost decimal(10,2)
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table stock_movements {
+  id uuid [pk]
+
+  product_id uuid [not null]
+  warehouse_id uuid [not null]
+
+  movement_type varchar(30) [not null]
+
+  quantity integer [not null]
+
+  reason varchar(100)
+
+  created_at timestamp
+}
+
+Table deliveries {
+  id uuid [pk]
+
+  product_id uuid [not null]
+
+  quantity integer [not null]
+
+  expected_date timestamp
+  delivered_date timestamp
+
+  status varchar(30)
+
+  created_at timestamp
+}
+
+Table ai_reports {
+  id uuid [pk]
+
+  summary text
+
+  critical_products integer
+  expired_products integer
+  delayed_deliveries integer
+
+  generated_at timestamp
+}
+
+Ref: inventories.product_id > products.id
+Ref: inventories.warehouse_id > warehouses.id
+
+Ref: stock_movements.product_id > products.id
+Ref: stock_movements.warehouse_id > warehouses.id
+
+Ref: deliveries.product_id > products.id
