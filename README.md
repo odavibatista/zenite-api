@@ -1,134 +1,85 @@
 # 🌾 Zênite API
 
-Sistema de observabilidade operacional para distribuidoras agropecuárias, desenvolvido para o Hackathon ATRIA.
+Sistema de observabilidade operacional para distribuidoras agropecuárias desenvolvido para o Hackathon ATRIA.
 
-O projeto combina automação, monitoramento de estoque e inteligência artificial para auxiliar gestores na tomada de decisão, reduzindo perdas operacionais causadas por ruptura de estoque, vencimento de produtos e atrasos logísticos.
+O projeto combina monitoramento de estoque, automação de processos e inteligência artificial para auxiliar gestores na tomada de decisão, reduzindo perdas operacionais causadas por:
+
+- Ruptura de estoque;
+- Produtos vencidos;
+- Entregas atrasadas;
+- Custos elevados de armazenagem.
 
 ---
 
 # 📖 Visão Geral
 
-A solução Zênite foi concebida para centralizar informações operacionais e transformá-las em indicadores e recomendações acionáveis através da integração entre:
+O Zênite foi projetado para centralizar informações operacionais e transformá-las em indicadores e recomendações executivas através da integração entre:
 
-- API REST
+- API REST (NestJS)
 - PostgreSQL
+- Prisma ORM
 - Redis
 - n8n
 - Google Sheets
 - Google Looker Studio
 - OpenAI
 
-O objetivo é fornecer visibilidade operacional em tempo real e automatizar a identificação de problemas críticos relacionados à gestão de estoque e distribuição.
+A plataforma atua como uma camada de observabilidade operacional para distribuidoras agropecuárias.
 
 ---
 
-# 🚀 Arquitetura
+# 🏗️ Arquitetura
 
-A arquitetura da solução foi projetada para separar claramente:
+A arquitetura da solução está documentada através de diagramas disponíveis no próprio projeto.
 
-- Persistência de dados;
-- Exposição de informações;
-- Automação operacional;
-- Inteligência analítica;
-- Visualização executiva.
+## Arquitetura Geral
 
-![Arquitetura da Solução](src/shared/storage/docs/c4-diagram.png)
-
-## Componentes
-
-| Componente | Responsabilidade |
-|------------|------------------|
-| API Zênite | Exposição e manipulação dos dados operacionais |
-| PostgreSQL | Persistência dos dados |
-| Redis | Cache de consultas frequentes |
-| n8n | Orquestração das automações |
-| Google Sheets | Consolidação dos dados consumidos pelo dashboard |
-| Looker Studio | Visualização dos indicadores |
-| OpenAI | Geração de recomendações executivas |
+![Arquitetura C4](src/shared/storage/docs/c4-diagram.png)
 
 ---
 
-# 🤖 Fluxo de Automação (n8n)
-
-O n8n atua como o principal orquestrador da solução.
-
-Periodicamente ele consulta a API, processa indicadores e gera recomendações utilizando IA.
+## Fluxo de Automação
 
 ![Fluxo n8n](src/shared/storage/docs/n8n-workflow.png)
 
-## Responsabilidades do Workflow
-
-- Consultar estoque atual;
-- Identificar produtos abaixo do estoque mínimo;
-- Identificar produtos vencidos;
-- Consultar pedidos;
-- Identificar entregas atrasadas;
-- Consolidar indicadores operacionais;
-- Acionar a OpenAI;
-- Persistir recomendações executivas;
-- Atualizar os dados consumidos pelo dashboard.
-
 ---
 
-# 🗄️ Modelo de Dados
-
-A modelagem foi construída para suportar o monitoramento operacional sem a complexidade de um ERP completo.
+## Modelo de Dados
 
 ![Modelo de Dados](src/shared/storage/docs/database.png)
-
-## Entidades Principais
-
-| Entidade | Responsabilidade |
-|-----------|------------------|
-| Product | Produtos agropecuários |
-| Warehouse | Armazéns físicos |
-| Inventory | Estoque atual por armazém |
-| StockMovement | Histórico de movimentações |
-| Delivery | Controle logístico |
-| AIReport | Relatórios gerados pela IA |
 
 ---
 
 # 🎯 Objetivo
 
-Resolver problemas comuns em distribuidoras agropecuárias:
+O objetivo do projeto é monitorar continuamente:
 
-- Produtos abaixo do estoque mínimo;
+- Estoques críticos;
 - Produtos vencidos;
 - Entregas atrasadas;
-- Custos elevados de armazenagem;
-- Falta de visibilidade operacional;
-- Dependência de acompanhamento manual.
+- Custos operacionais relacionados à armazenagem;
+
+e transformar essas informações em ações recomendadas através de automação e inteligência artificial.
 
 ---
 
-# 🧠 Uso de Inteligência Artificial
+# 🤖 Uso de Inteligência Artificial
 
-A OpenAI atua como uma camada de apoio à decisão.
+A OpenAI atua como uma camada analítica responsável por:
 
-Os dados consolidados pelo n8n são enviados para análise e transformados em recomendações executivas.
-
-## Entradas
-
-- Estoque crítico;
-- Produtos vencidos;
-- Entregas atrasadas;
-- Indicadores operacionais.
-
-## Saídas
-
-- Identificação de riscos;
-- Recomendações de reposição;
-- Alertas de vencimento;
-- Sugestões operacionais.
+- Consolidar indicadores operacionais;
+- Identificar riscos de ruptura;
+- Detectar perdas por vencimento;
+- Avaliar atrasos logísticos;
+- Gerar recomendações executivas.
 
 ### Exemplo
 
-> Foram identificados 12 produtos abaixo do estoque mínimo, 5 produtos vencidos e 11 entregas atrasadas. Recomenda-se reposição imediata dos itens críticos, revisão do processo de controle de validade e acompanhamento dos fornecedores responsáveis pelos atrasos logísticos.
+> Foram identificados 12 produtos abaixo do estoque mínimo e 11 entregas atrasadas. Recomenda-se reposição imediata dos itens críticos e revisão dos fornecedores responsáveis pelos atrasos.
 
 ---
 
-# 🏗️ Stack Tecnológica
+# ⚙️ Stack Tecnológica
 
 ## Backend
 
@@ -160,7 +111,7 @@ Os dados consolidados pelo n8n são enviados para análise e transformados em re
 
 ## Documentação
 
-- Swagger/OpenAPI
+- Swagger / OpenAPI
 
 ---
 
@@ -169,115 +120,143 @@ Os dados consolidados pelo n8n são enviados para análise e transformados em re
 ```text
 src/
 
-app/
-
-shared/
-
-modules/
-
-├── products
-├── warehouses
-├── inventory
-├── stock-movements
-├── deliveries
-└── reports
+├── app/
+│   ├── app.module.ts
+│   └── main.ts
+│
+├── shared/
+│   │
+│   ├── config/
+│   │   ├── app.config.ts
+│   │   └── swagger.config.ts
+│   │
+│   ├── domain/
+│   │   ├── dtos/
+│   │   ├── errors/
+│   │   ├── protocols/
+│   │   └── providers/
+│   │
+│   ├── infra/
+│   │   └── modules/
+│   │
+│   ├── utils/
+│   │   ├── constants/
+│   │   └── enums/
+│   │
+│   └── storage/
+│       └── docs/
+│           ├── c4-diagram.png
+│           ├── database.png
+│           ├── database.txt
+│           └── n8n-workflow.png
+│
+└── modules/
+    ├── product/
+    ├── warehouse/
+    ├── inventory/
+    ├── stock-movement/
+    └── report/
 ```
 
 ---
 
-# 📊 Dashboard Executivo
+# 🧱 Arquitetura de Módulos
 
-O dashboard foi desenvolvido para fornecer uma visão consolidada da operação.
+Cada módulo segue uma organização baseada em separação de responsabilidades.
 
-## Indicadores Principais
+Exemplo:
 
-- Estoque abaixo do mínimo;
-- Produtos vencidos;
-- Entregas atrasadas;
-- Custo total de armazenagem.
+```text
+product/
 
-## Visualizações
+├── domain/
+│   └── dtos/
+│
+├── http/
+│   └── controllers/
+│
+├── infra/
+│   ├── db/
+│   │   └── repositories/
+│   │
+│   ├── modules/
+│   │
+│   └── usecases/
+```
 
-- Concentração de estoque por categoria;
-- Distribuição de pedidos por status;
-- Recomendações executivas geradas por IA.
+Essa estrutura facilita:
 
-Os dados são atualizados automaticamente através da integração entre API, n8n, Google Sheets e Looker Studio.
+- Testabilidade;
+- Reutilização;
+- Separação entre domínio e infraestrutura;
+- Evolução do projeto.
 
 ---
 
-# 📡 Endpoints
+# 🗄️ Domínio da Aplicação
 
-## Products
+O modelo de dados foi desenhado para atender o fluxo principal do projeto.
 
-```http
-GET /products
-GET /products/:id
-```
+## Product
+
+Representa produtos agropecuários.
+
+Exemplos:
+
+- Fertilizantes
+- Defensivos
+- Sementes
+- Rações
 
 ---
 
-## Warehouses
+## Warehouse
 
-```http
-GET /warehouses
-GET /warehouses/:id
-```
+Representa armazéns físicos.
+
+Exemplos:
+
+- MG-01
+- SP-02
+- GO-01
+- PR-01
 
 ---
 
 ## Inventory
 
-```http
-GET /inventory
-GET /inventory/critical
-GET /inventory/expiring
-GET /inventory/dashboard
-```
+Representa o estoque atual por produto e armazém.
 
 ---
 
-## Stock Movements
+## StockMovement
 
-```http
-GET /stock-movements
-
-POST /stock-movements
-```
-
-### Exemplo
-
-```json
-{
-  "productId": "uuid",
-  "warehouseId": "uuid",
-  "movementType": "OUTBOUND",
-  "quantity": 50,
-  "reason": "Venda"
-}
-```
+Representa entradas e saídas de estoque.
 
 ---
 
-## Deliveries
+## Delivery
 
-```http
-GET /deliveries
-
-POST /deliveries
-
-PATCH /deliveries/:id/status
-```
+Representa entregas e controle logístico.
 
 ---
 
-## Reports
+## AIReport
 
-```http
-GET /reports
+Representa relatórios gerados pela OpenAI.
 
-GET /reports/latest
-```
+---
+
+# 📊 Indicadores Monitorados
+
+O dashboard acompanha principalmente:
+
+- Produtos abaixo do estoque mínimo;
+- Produtos vencidos;
+- Entregas atrasadas;
+- Custos de armazenagem;
+- Distribuição de estoque por categoria;
+- Distribuição de pedidos por status.
 
 ---
 
@@ -295,9 +274,9 @@ Movimentação de Estoque
         ▼
        n8n
         │
-        ├── Atualiza Indicadores
-        ├── Aciona OpenAI
-        └── Atualiza Google Sheets
+        ├── Consolidação de Indicadores
+        ├── OpenAI
+        └── Google Sheets
                 │
                 ▼
          Looker Studio
@@ -305,15 +284,35 @@ Movimentação de Estoque
 
 ---
 
+# 🚧 Status Atual
+
+Atualmente o projeto possui:
+
+✅ Estrutura base da aplicação
+
+✅ Arquitetura modular definida
+
+✅ Configurações compartilhadas
+
+✅ Estrutura de documentação
+
+✅ Diagramas arquiteturais
+
+✅ Provider Prisma
+
+🚧 Implementação dos módulos de negócio
+
+🚧 Modelagem Prisma
+
+🚧 Casos de uso
+
+🚧 Integrações com n8n
+
+🚧 Dashboard final
+
+---
+
 # ⚙️ Instalação
-
-## Clonar o projeto
-
-```bash
-git clone https://github.com/seu-usuario/zenite-api.git
-
-cd zenite-api
-```
 
 ## Instalar dependências
 
@@ -321,28 +320,19 @@ cd zenite-api
 npm install
 ```
 
-## Configurar ambiente
+---
 
-Crie um arquivo `.env`:
+## Configurar ambiente
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/zenite"
+
 PORT=3000
 ```
 
-## Executar migrations
+---
 
-```bash
-npx prisma migrate dev
-```
-
-## Gerar Prisma Client
-
-```bash
-npx prisma generate
-```
-
-## Executar projeto
+## Executar aplicação
 
 ```bash
 npm run start:dev
@@ -350,9 +340,9 @@ npm run start:dev
 
 ---
 
-# 📄 Swagger
+# 📄 Documentação da API
 
-A documentação da API estará disponível em:
+Após iniciar a aplicação:
 
 ```text
 http://localhost:3000/docs
@@ -362,28 +352,19 @@ http://localhost:3000/docs
 
 # 🏆 Objetivo do MVP
 
-Demonstrar o fluxo completo de negócio:
+Demonstrar o fluxo completo:
 
-- Registro de movimentações;
-- Atualização de estoque;
-- Consulta automatizada dos dados;
-- Identificação de indicadores críticos;
-- Geração de recomendações por IA;
-- Atualização automática do dashboard.
-
-## Cenário Demonstrado
-
-1. Registro de movimentação de estoque;
-2. Atualização automática do estoque;
-3. Detecção de indicadores críticos;
-4. Geração de recomendações pela OpenAI;
-5. Atualização do Google Sheets;
-6. Atualização do Dashboard no Looker Studio.
+1. Registro de movimentação;
+2. Atualização do estoque;
+3. Processamento automático pelo n8n;
+4. Geração de recomendações via OpenAI;
+5. Atualização do dashboard;
+6. Visualização dos indicadores em tempo real.
 
 ---
 
 # 👥 Equipe
 
-Projeto desenvolvido durante o **Hackathon ATRIA**.
+Projeto desenvolvido durante o Hackathon ATRIA.
 
 **Zênite — Gestão Inteligente de Estoque, Validade e Distribuição**
