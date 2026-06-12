@@ -2,6 +2,9 @@ import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { PrismaProvider } from '../providers/Prisma.provider';
+
+const prismaProvider = new PrismaProvider();
 
 /* Módulo global responsável por infraestrutura e componentes compartilhados da aplicação */
 @Global()
@@ -16,6 +19,11 @@ import { ZodValidationPipe } from 'nestjs-zod';
   controllers: [],
   providers: [
     /* Providers - Infraestrutura compartilhada */
+    {
+      /* Instância concreta do PrismaProvider como singleton global */
+      provide: PrismaProvider,
+      useValue: prismaProvider,
+    },
 
     /* Pipe global de validação baseado em Zod, aplicado a todas as rotas */
     {
