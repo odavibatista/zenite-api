@@ -8,6 +8,7 @@ export default defineConfig({
 
   migrations: {
     path: "src/shared/infra/db/prisma/migrations",
+    seed: "ts-node -r tsconfig-paths/register src/shared/infra/db/prisma/seeders/index.ts"
   },
 
   datasource: {

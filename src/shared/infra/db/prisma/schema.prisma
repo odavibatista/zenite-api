@@ -99,6 +99,30 @@ model StockMovement {
   @@map("stock_movements")
 }
 
+model Report {
+  id String       @id @default(uuid())
+
+  summary String @db.Text
+
+  criticalProducts Int @default(0)
+
+  expiredProducts Int @default(0)
+
+  delayedDeliveries Int @default(0)
+
+  totalStorageCost Decimal @db.Decimal(10, 2)
+
+  recommendations String @db.Text
+
+  generatedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@map("reports")
+}
+
 enum MovementType {
   INBOUND
   OUTBOUND
