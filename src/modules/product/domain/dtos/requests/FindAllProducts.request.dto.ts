@@ -10,20 +10,15 @@ export const ProductSchema = z.object({
 
   minimumStock: z.number().int(),
 
-  expirationDate: z.date(),
+  expirationDate: z.string(),
 
-  createdAt: z.date(),
+  createdAt: z.string(),
 
-  updatedAt: z.date(),
+  updatedAt: z.string(),
 });
 
 export const FindAllProductsResponseSchema = z.object({
-  current_season: z.enum([
-    'spring',
-    'summer',
-    'autumn',
-    'winter',
-  ]),
+  current_season: z.enum(['spring', 'summer', 'autumn', 'winter']),
 
   products: z.array(ProductSchema),
 });

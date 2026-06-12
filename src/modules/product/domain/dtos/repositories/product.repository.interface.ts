@@ -1,4 +1,4 @@
-import { FindProductByIdDto } from "src/modules/product/infra/db/repositories/dtos/FindProductById.dto";
+import { FindProductByIdDto } from 'src/modules/product/infra/db/repositories/dtos/FindProductById.dto';
 
 export interface ProductRepositoryInterface {
   findAll(): Promise<FindProductByIdDto[]>;

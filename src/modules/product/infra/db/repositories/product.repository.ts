@@ -6,29 +6,52 @@ import { FindProductByIdDto } from './dtos/FindProductById.dto';
 
 @Injectable()
 export class ProductRepository implements ProductRepositoryInterface {
-    async findAll(): Promise<FindProductByIdDto[]> {
-        const products = prisma.product.findMany();
+  async findAll(): Promise<FindProductByIdDto[]> {
+    const products = prisma.product.findMany();
 
-        return products;
+    const formattedProducts = (await products).map((product: Product) => ({
+      ...product,
+      expirationDate: product.expirationDate.toISOString(),
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
+    }));
+
+    return formattedProducts;
+  }
+
+  async findById(id: string): Promise<FindProductByIdDto | null> {
+    const product = await prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!product)
+      return null;
+
+    return {
+      ...product,
+      expirationDate: product.expirationDate.toISOString(),
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
     }
+  }
 
-    async findById(id: string): Promise<FindProductByIdDto | null> {
-        const product = await prisma.product.findUnique({
-            where: {
-                id
-            }
-        });
+  async findByName(name: string): Promise<FindProductByIdDto | null> {
+    const product = await prisma.product.findFirst({
+      where: {
+        name,
+      },
+    });
 
-        return product;
+    if (!product)
+      return null;
+
+    return {
+      ...product,
+      expirationDate: product.expirationDate.toISOString(),
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
     }
-
-    async findByName(name: string): Promise<FindProductByIdDto | null> {
-        const product = await prisma.product.findFirst({
-            where: {
-                name
-            }
-        });
-
-        return product;
-    }
+  }
 }

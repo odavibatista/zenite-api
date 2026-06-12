@@ -10,11 +10,13 @@ export const FindProductByIdResponseSchema = z.object({
 
   minimumStock: z.number().int(),
 
-  expirationDate: z.date(),
+  expirationDate: z.string(),
 
-  createdAt: z.date(),
+  createdAt: z.string(),
 
-  updatedAt: z.date(),
+  updatedAt: z.string(),
 });
 
-export class FindProductByIdResponse extends createZodDto(FindProductByIdResponseSchema) {}
+export class FindProductByIdResponse extends createZodDto(
+  FindProductByIdResponseSchema,
+) {}

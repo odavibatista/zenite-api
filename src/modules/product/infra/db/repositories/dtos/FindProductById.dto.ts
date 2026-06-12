@@ -10,11 +10,11 @@ export const FindProductByIdSchema = z.object({
 
   minimumStock: z.number().int(),
 
-  expirationDate: z.date(),
+  expirationDate: z.string(),
 
-  createdAt: z.date(),
+  createdAt: z.string(),
 
-  updatedAt: z.date(),
+  updatedAt: z.string(),
 });
 
 export class FindProductByIdDto extends createZodDto(FindProductByIdSchema) {}

@@ -1,3 +1,3 @@
 export interface SeasonProviderInterface {
-    getCurrentSeason(): 'summer' | 'autumn' | 'winter' | 'spring';
+  getCurrentSeason(): 'summer' | 'autumn' | 'winter' | 'spring';
 }
