@@ -19,10 +19,22 @@ export const warehouseSeeder = async (
       state: 'SP',
     },
     {
+      code: 'SP-02',
+      name: 'Armazém São Paulo II',
+      city: 'Campinas',
+      state: 'SP',
+    },
+    {
       code: 'PR-01',
       name: 'Armazém Paraná',
       city: 'Londrina',
       state: 'PR',
+    },
+    {
+      code: 'GO-01',
+      name: 'Armazém Goiás',
+      city: 'Rio Verde',
+      state: 'GO',
     },
   ];
 
