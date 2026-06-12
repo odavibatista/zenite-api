@@ -28,7 +28,7 @@ import { StockMovementModule } from '../modules/stock-movement/infra/modules/sto
   ],
   controllers: [],
   providers: [
-  /* Providers globais - pipes, filtros e interceptors */
+    /* Providers globais - pipes, filtros e interceptors */
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,

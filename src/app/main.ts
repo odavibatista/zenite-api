@@ -30,7 +30,6 @@ import * as fs from 'fs';
  *  - inicia o listener HTTP na porta definida em `appConfigurations.PORT`.
  */
 async function bootstrap() {
-
   // Cria a aplicação NestJS usando o `AppModule` como módulo raiz
   // e habilita logs detalhados em todos os níveis.
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

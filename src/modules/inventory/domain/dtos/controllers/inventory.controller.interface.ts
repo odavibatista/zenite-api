@@ -1,4 +1,3 @@
 import { Request, Response } from 'express';
 
-export interface InventoryControllerInterface {
-}
+export interface InventoryControllerInterface {}

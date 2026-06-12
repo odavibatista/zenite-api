@@ -1,4 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ReportController } from '../../http/controllers/report.controller';
+import { ReportRepository } from '../db/repositories/report.repository';
 
-@Module({})
-export class ReportModule {}
+@Module({
+    controllers: [ReportController],
+    providers: [
+        ReportRepository,
+    ],
+  })
+export class ReportModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply().forRoutes();
+  }
+}

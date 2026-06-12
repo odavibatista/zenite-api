@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 
-
 /* Módulo global responsável por infraestrutura e componentes compartilhados da aplicação */
 @Global()
 @Module({
@@ -14,10 +13,8 @@ import { ZodValidationPipe } from 'nestjs-zod';
       isGlobal: true,
     }),
   ],
-  controllers: [
-  ],
+  controllers: [],
   providers: [
-
     /* Providers - Infraestrutura compartilhada */
 
     /* Pipe global de validação baseado em Zod, aplicado a todas as rotas */
