@@ -61,3 +61,4 @@ src/shared/infra/db/prisma/generated/*
 src/shared/infra/db/prisma/generated/prisma/*
 src/shared/infra/db/prisma/migrations/*
 src/shared/infra/db/prisma/dev.db
+src/shared/infra/db/generated/prisma

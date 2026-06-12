@@ -1,0 +1,16 @@
+model Warehouse {
+  id        String   @id @default(uuid())
+
+  code      String   @unique
+  name      String
+
+  city      String
+  state     String
+
+  createdAt DateTime @default(now())
+
+  inventories    Inventory[]
+  stockMovements StockMovement[]
+
+  @@map("warehouses")
+}
