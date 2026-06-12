@@ -38,7 +38,8 @@ export class ProductController implements ProductControllerInterface {
   })
   @ApiOperation({
     summary: 'Buscar Produtos Disponíveis',
-    description: 'Endpoint para buscar todos os produtos disponíveis, incluindo informações sobre a estação atual.',
+    description:
+      'Endpoint para buscar todos os produtos disponíveis, incluindo informações sobre a estação atual.',
   })
   async findProducts(
     @Req()

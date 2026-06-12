@@ -1,4 +1,4 @@
-import { FindInventoryByIdDto } from "./FindInventoryById.dto";
+import { FindInventoryByIdDto } from './FindInventoryById.dto';
 
 export interface InventoryRepositoryInterface {
   findAll(): Promise<FindInventoryByIdDto[]>;

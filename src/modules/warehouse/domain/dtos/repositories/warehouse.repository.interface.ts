@@ -1,4 +1,4 @@
-import { FindWarehouseByIdDto } from "./FindWarehouseById.dto";
+import { FindWarehouseByIdDto } from './FindWarehouseById.dto';
 
 export interface WarehouseRepositoryInterface {
   findAll(): Promise<FindWarehouseByIdDto[]>;

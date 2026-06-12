@@ -42,12 +42,7 @@ export const InventorySchema = z.object({
 });
 
 export const FindAllInventoriesResponseSchema = z.object({
-  current_season: z.enum([
-    'spring',
-    'summer',
-    'autumn',
-    'winter',
-  ]),
+  current_season: z.enum(['spring', 'summer', 'autumn', 'winter']),
 
   inventories: z.array(InventorySchema),
 });

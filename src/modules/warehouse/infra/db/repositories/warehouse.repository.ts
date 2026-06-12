@@ -4,11 +4,8 @@ import { WarehouseRepositoryInterface } from 'src/modules/warehouse/domain/dtos/
 
 import { prisma } from 'src/shared/infra/db/prisma';
 
-
 @Injectable()
-export class WarehouseRepository
-  implements WarehouseRepositoryInterface
-{
+export class WarehouseRepository implements WarehouseRepositoryInterface {
   async findAll(): Promise<FindWarehouseByIdDto[]> {
     const warehouses = await prisma.warehouse.findMany({
       orderBy: {
@@ -26,9 +23,7 @@ export class WarehouseRepository
     }));
   }
 
-  async findById(
-    id: string,
-  ): Promise<FindWarehouseByIdDto | null> {
+  async findById(id: string): Promise<FindWarehouseByIdDto | null> {
     const warehouse = await prisma.warehouse.findUnique({
       where: {
         id,
@@ -49,9 +44,7 @@ export class WarehouseRepository
     };
   }
 
-  async findByCode(
-    code: string,
-  ): Promise<FindWarehouseByIdDto | null> {
+  async findByCode(code: string): Promise<FindWarehouseByIdDto | null> {
     const warehouse = await prisma.warehouse.findUnique({
       where: {
         code,

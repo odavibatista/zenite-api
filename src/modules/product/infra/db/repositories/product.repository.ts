@@ -26,15 +26,14 @@ export class ProductRepository implements ProductRepositoryInterface {
       },
     });
 
-    if (!product)
-      return null;
+    if (!product) return null;
 
     return {
       ...product,
       expirationDate: product.expirationDate.toISOString(),
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
-    }
+    };
   }
 
   async findByName(name: string): Promise<FindProductByIdDto | null> {
@@ -44,14 +43,13 @@ export class ProductRepository implements ProductRepositoryInterface {
       },
     });
 
-    if (!product)
-      return null;
+    if (!product) return null;
 
     return {
       ...product,
       expirationDate: product.expirationDate.toISOString(),
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
-    }
+    };
   }
 }
